@@ -22,7 +22,6 @@ const arrowLeft = document.querySelector(".arrow_left")
 const arrowRight = document.querySelector(".arrow_right")
 const bannerImage = document.querySelector(".banner_img")
 const bannerTxt = document.querySelector(".banner_txt")
-const dots = document.querySelector(".dots")
 let dot
 let index = 0
 
@@ -43,41 +42,35 @@ addDots()
 arrowLeft.addEventListener("click", goLeft)
 arrowRight.addEventListener("click", goRight)
 
-// Fonction pour aller vers la gauche
+// Fonction pour aller à gauche
 function goLeft() {
-  if (index > 0) {
-    index--
-    bannerImage.src = `./assets/images/slideshow/${slides[index].image}`
-    bannerTxt.innerHTML = slides[index].tagLine
-  } else if (index === 0) {
-    index = slides.length - 1
-    bannerImage.src = `./assets/images/slideshow/${slides[index].image}`
-    bannerTxt.innerHTML = slides[index].tagLine
+  let currentIndex = index
+  if (currentIndex > 0) {
+    currentIndex--
+  } else if (currentIndex === 0) {
+    currentIndex = slides.length - 1
   }
-  changeDotClass(index)
+  changeSlide(currentIndex)
 }
 
+// Fonction pour aller à droite
 function goRight() {
-  if (index < slides.length - 1) {
-    index++
-    bannerImage.src = `./assets/images/slideshow/${slides[index].image}`
-    bannerTxt.innerHTML = slides[index].tagLine
-  } else if (index === slides.length - 1) {
-    index = 0
-    bannerImage.src = `./assets/images/slideshow/${slides[index].image}`
-    bannerTxt.innerHTML = slides[index].tagLine
+  let currentIndex = index
+  if (currentIndex < slides.length - 1) {
+    currentIndex++
+  } else if (currentIndex === slides.length - 1) {
+    currentIndex = 0
   }
-  changeDotClass(index)
+  changeSlide(currentIndex)
 }
 
 // Changer la classe du point sélectionné
-function changeDotClass(index) {
-  let dotActive = document.querySelectorAll(".dot")
-  for (let i = 0; i < slides.length; i++) {
-    if (i === index) {
-      dotActive[i].classList.add("dot_selected")
-    } else {
-      dotActive[i].classList.remove("dot_selected")
-    }
-  }
+function changeSlide(currentIndex) {
+  let dotItems = document.querySelectorAll(".dot")
+
+  dotItems[index].classList.remove("dot_selected")
+  dotItems[currentIndex].classList.add("dot_selected")
+  bannerImage.src = `./assets/images/slideshow/${slides[currentIndex].image}`
+  bannerTxt.innerHTML = slides[currentIndex].tagLine
+  index = currentIndex
 }
